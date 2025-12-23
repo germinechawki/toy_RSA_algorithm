@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "math.h"
 
 /* Extended Euclidean Algorithm */
 int64_t egcd(int64_t a, int64_t b, int64_t *x, int64_t *y)
@@ -9,39 +10,33 @@ int64_t egcd(int64_t a, int64_t b, int64_t *x, int64_t *y)
         *y = 1;
         return b;
     }
-
     int64_t x1, y1;
     int64_t g = egcd(b % a, a, &x1, &y1);
-
     *x = y1 - (b / a) * x1;
     *y = x1;
-
     return g;
 }
 
-/* Modular inverse */
+/* Modular Inverse */
 uint32_t modinv(uint32_t a, uint32_t m)
 {
     int64_t x, y;
-    int64_t g = egcd(a, m, &x, &y);
-    if (g != 1)
-        return 0;
-
+    egcd(a, m, &x, &y);
     return (uint32_t)((x % m + m) % m);
 }
 
-/* Modular exponentiation */
-uint32_t modpow(uint32_t base, uint32_t exp, uint32_t mod)
+/* Montgomery Reduction */
+uint32_t mont_redc(uint64_t x, uint32_t n, uint32_t n_inv)
 {
-    uint64_t result = 1;
-    uint64_t b = base;
+    uint64_t m = (uint32_t)x * n_inv;
+    uint64_t t = (x + m * n) >> 32;
+    if (t >= n)
+        t -= n;
+    return (uint32_t)t;
+}
 
-    while (exp)
-    {
-        if (exp & 1)
-            result = (result * b) % mod;
-        b = (b * b) % mod;
-        exp >>= 1;
-    }
-    return (uint32_t)result;
+/* Montgomery Multiplication */
+uint32_t mont_mul(uint32_t a, uint32_t b, uint32_t n, uint32_t n_inv)
+{
+    return mont_redc((uint64_t)a * b, n, n_inv);
 }

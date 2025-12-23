@@ -3,7 +3,7 @@
 
 #include "core/rsa.h"
 #include "core/math.h"
-//#include "crypto/padding.h"
+#include "crypto/padding.h"
 
 int main(int argc, char **argv)
 {

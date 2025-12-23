@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include <stdint.h>
 
-/* Forward declarations */
-uint32_t rsa_encrypt(uint32_t plaintext, uint32_t e, uint32_t N);
-uint32_t rsa_decrypt(uint32_t ciphertext, uint32_t d, uint32_t N);
-uint32_t modinv(uint32_t a, uint32_t m);
+#include "core/rsa.h"
+#include "core/math.h"
+#include "crypto/padding.h"
 
 int main(void)
 {
-    /* RSA parameters */
     uint32_t p = 41;
     uint32_t q = 3041;
     uint32_t e = 257;

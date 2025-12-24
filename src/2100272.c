@@ -307,7 +307,8 @@ int main(int argc, char **argv)
         write_file( fcipher,ciphertext);
         fclose(fcipher);
 
-        printf("Encryption done: plaintext %u -> ciphertext %u\n", plaintext, ciphertext);
+        printf("Encryption done: plaintext %08X -> ciphertext %08X\n",
+               plaintext, ciphertext);
     }
     else if (argv[1][0] == 'd')
     {
@@ -346,7 +347,8 @@ int main(int argc, char **argv)
         write_file( fplain,plaintext);
         fclose(fplain);
 
-        printf("Decryption done: ciphertext %u -> plaintext %u\n", ciphertext, plaintext);
+        printf("Decryption done: ciphertext %08X -> plaintext %08X\n",
+               ciphertext, plaintext);
 
     }
      else {

@@ -6,17 +6,50 @@
 
 
 
+uint32_t discrete_exponent(uint32_t C, uint32_t d, uint32_t m)
+{
+    uint32_t phi_m=m-1; //since mod is prime
+    uint32_t exp=d%phi_m;
+    C=C%m;
+    return mont_pow(C, exp, m);
 
+}
+
+
+uint32_t chinese_remainder_theorem(uint32_t C,uint32_t d, uint32_t n, uint32_t p, uint32_t q)
+{
+    uint32_t m1=p, m2=q;
+    uint32_t M1=q, M2=p;
+
+    uint32_t M1_inv=modinv(M1,m1);
+    uint32_t M2_inv=modinv(M2,m2);
+    //hanle overflow by using uint64_t
+    uint64_t c1 = (uint64_t)M1 * M1_inv;
+    uint64_t c2 = (uint64_t)M2 * M2_inv;
+
+    uint32_t a1= discrete_exponent(C,d,m1);
+    uint32_t a2= discrete_exponent(C,d,m2);
+
+    //handle overflow
+    uint64_t t = (uint64_t)a1 * c1 + (uint64_t)a2 * c2;
+    uint32_t x = (uint32_t)(t % n);
+
+    return x;
+
+
+}
 
 /* RSA Encrypt / Decrypt */
 uint32_t rsa_encrypt(uint32_t m, uint32_t e, uint32_t n)
 {
+    m=m%n;
     return mont_pow(m, e, n);
 }
 
-uint32_t rsa_decrypt(uint32_t c, uint32_t d, uint32_t n)
+uint32_t rsa_decrypt(uint32_t c, uint32_t d, uint32_t n, uint32_t p, uint32_t q)
 {
-    return mont_pow(c, d, n);
+    return chinese_remainder_theorem(c,d,n,p,q);
+   // return mont_pow(c, d, n);
 }
 
 

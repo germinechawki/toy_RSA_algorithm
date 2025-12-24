@@ -59,14 +59,20 @@ int main(int argc, char **argv)
         // Write public key (N, e)
 //        fwrite(&N, sizeof(N), 1, fpubkey);
 //        fwrite(&e, sizeof(e), 1, fpubkey);
-        write_file(fpubkey, N);
         write_file(fpubkey, e);
+        write_file(fpubkey, N);
+
+
 
         // Write private key (N, d)
 //        fwrite(&N, sizeof(N), 1, fprivkey);
 //        fwrite(&d, sizeof(d), 1, fprivkey);
-        write_file(fprivkey, N);
         write_file(fprivkey, d);
+        write_file(fprivkey, N);
+        write_file(fprivkey, p);
+        write_file(fprivkey, q);
+
+
 
         fclose(fpubkey);
         fclose(fprivkey);
@@ -90,8 +96,9 @@ int main(int argc, char **argv)
             return 1;
         }
         // Read public key
-        N=read_file(  fpubkey);
         e=read_file( fpubkey);
+        N=read_file(  fpubkey);
+
         fclose(fpubkey);
 
         // Read plaintext
@@ -126,8 +133,11 @@ int main(int argc, char **argv)
         }
 
         // Read private key
-        N=read_file(  fprivkey);
         d=read_file( fprivkey);
+        N=read_file(  fprivkey);
+        p=read_file(  fprivkey);
+        q=read_file(  fprivkey);
+
         fclose(fprivkey);
 
         // Read ciphertext
@@ -136,7 +146,7 @@ int main(int argc, char **argv)
         fclose(fcipher);
 
         // Decrypt
-        uint32_t plaintext = rsa_decrypt(ciphertext, d, N);
+        uint32_t plaintext = rsa_decrypt(ciphertext, d, N,p,q);
 
         // Write plaintext
         write_file( fplain,plaintext);

@@ -2,15 +2,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <time.h>
-
-#include <stdint.h>
-
-/* Generate random odd number between min and max */
-#include <stdlib.h>
 #include <stdbool.h>
 
-#include <stdint.h>
-#include "math.h"
+
+
 
 /* Extended Euclidean Algorithm */
 int64_t egcd(int64_t a, int64_t b, int64_t *x, int64_t *y)

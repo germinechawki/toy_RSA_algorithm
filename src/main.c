@@ -69,8 +69,9 @@ int main(int argc, char **argv)
 //        fwrite(&d, sizeof(d), 1, fprivkey);
         write_file(fprivkey, d);
         write_file(fprivkey, N);
-        write_file(fprivkey, p);
-        write_file(fprivkey, q);
+
+//        write_file(fprivkey, p);
+//        write_file(fprivkey, q);
 
 
 
@@ -135,8 +136,8 @@ int main(int argc, char **argv)
         // Read private key
         d=read_file( fprivkey);
         N=read_file(  fprivkey);
-        p=read_file(  fprivkey);
-        q=read_file(  fprivkey);
+//        p=read_file(  fprivkey);
+//        q=read_file(  fprivkey);
 
         fclose(fprivkey);
 
